@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="row">
+    <h1 class="titulo padding text-bold text-large">Seleccione una opcion</h1>
+    <div class="col">
+        <div class="card card-thick-border" style="align-items: center;">
+            <img src="{{ url_for('static', filename='img/paciente.png') }}" class="card-img-top" alt="Soy un paciente">
+            <div class="card-body">
+                <a href="/paciente">
+                    <button class="btn btn-outline-info btn-lg btn-thick-border">Soy un paciente</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card card-thick-border" style="align-items: center;">
+            <img src="{{ url_for('static', filename='img/empleado.png') }}" class="card-img-top" alt="Soy un empleado">
+            <div class="card-body">
+                <a href="/login">
+                    <button class="btn btn-outline-info btn-lg btn-thick-border">Soy un empleado</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

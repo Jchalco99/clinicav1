@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="text-center padding">
+    <div class="card padding card-thick-border bg-card">
+        <h1 class="titulo padding text-bold text-large">Historial del paciente</h1>
+        <div class="card padding card-thick-border">
+            <div class="row">
+                <table class="table table-bordered table-thick-border">
+                    <thead>
+                        <tr>
+                            <!-- Aqui van a ir los valores de los pacientes atendidos -->
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>DNI</th>
+                            <th>etc...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Bucle for para la creacion de filas -->
+                        <tr>
+                            <td>Valor 1</td>
+                            <td>Valor 2</td>
+                            <td>Valor 3</td>
+                            <td>Valor etc...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

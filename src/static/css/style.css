@@ -1,0 +1,64 @@
+.bg-first {
+    background-color: rgba(200,191,231,255);
+}
+
+.bg-card {
+    background-color: rgba(255,213,226,255) !important;
+}
+
+.bg-second {
+    background-color: rgba(244,235,204,255);
+}
+
+.titulo {
+    text-align: center;
+}
+
+.text-bold {
+    font-weight: 700;
+}
+
+.card-thick-border {
+    border-width: 5px !important;
+    border-style: solid !important;
+    border-color: black !important;
+}
+
+.btn-thick-border {
+    border-width: 4px !important;
+    border-style: solid !important;
+    font-weight: bold !important;
+}
+
+.table-thick-border {
+    border-width: 4px !important;
+    border-style: solid;
+    border-collapse: collapse;
+    border-color: black !important;
+}
+
+.table-thick-border th,
+.table-thick-border td {
+    border-width: 4px !important;
+    border-style: solid;
+}
+
+.text-large {
+    font-size: 50px;
+}
+
+.text-medium {
+    font-size: 32px;
+}
+
+.padding {
+    padding: 25px;
+}
+
+.align-icon {
+    vertical-align: middle !important;
+}
+
+.alinear-botones {
+    text-align: right;
+}

@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="text-center padding">
+    <div class="card padding card-thick-border bg-card">
+        <h1 class="titulo padding text-bold text-large">Clinica FELICIDAD</h1>
+        <div class="card padding card-thick-border">
+            <h2 class="titulo padding text-bold text-medium">Bienvenido {{ username }} al sistema</h2>
+            <a href="/empleado/cita">
+                <button class="btn btn-outline-info btn-lg btn-thick-border">
+                    Sistema de citas
+                </button>
+            </a>
+            <br>
+            <a href="/empleado/historial">
+                <button class="btn btn-outline-info btn-lg btn-thick-border">
+                    Historial medico del paciente
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

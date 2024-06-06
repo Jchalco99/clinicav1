@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="row col-12 text-center">
+    <h1 class="titulo padding text text-large text-bold">Clinica ########</h1>
+    <!-- Aqui va un for para poder visualizar las colas de paciente -->
+    <div class="container">
+        <div class="row">
+            {% for paciente in pacientes %}
+                <div class="col-2">
+                    <!-- Aqui irian cards o algo para que se puedan visualizar de mejor forma cada paciente -->
+                    <div class="card card-thick-border text-bold">
+                        {{ paciente }}
+                    </div>
+                </div>
+                {% if not loop.last %}
+                    <div class="col-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+                          </svg>
+                    </div>
+                {% endif %}
+                {% if loop.index % 3 == 0 and not loop.last %}
+                    </div><br><br><div class="row">
+                {% endif %}
+            {% endfor %}
+        </div>
+        <br><br>
+    </div>
+    <a href="/paciente">
+        <button class="btn btn-outline-success btn-lg btn-thick-border">Generar ticket de atencion</button>
+    </a>
+</div>
+
+{% endblock %}
