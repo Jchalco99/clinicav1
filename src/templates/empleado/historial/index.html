@@ -10,21 +10,25 @@
                 <table class="table table-bordered table-thick-border">
                     <thead>
                         <tr>
-                            <!-- Aqui van a ir los valores de los pacientes atendidos -->
-                            <th>Id</th>
-                            <th>Nombre</th>
-                            <th>DNI</th>
-                            <th>etc...</th>
+                            <th>Tipo documento</th>
+                            <th>Numero de documento</th>
+                            <th>Datos del paciente</th>
+                            <th>Fecha</th>
+                            <th>Turno</th>
+                            <th>Hora</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Bucle for para la creacion de filas -->
+                        {% for cita in historial_citas %}
                         <tr>
-                            <td>Valor 1</td>
-                            <td>Valor 2</td>
-                            <td>Valor 3</td>
-                            <td>Valor etc...</td>
+                            <td>cita.tipo_documento</td>
+                            <td>cita.numero_documento</td>
+                            <td>cita.datos_paciente</td>
+                            <td>cita.fecha_cita</td>
+                            <td>cita.turno</td>
+                            <td>cita.hora_cita</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

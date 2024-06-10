@@ -1,4 +1,7 @@
 from flask import Flask, flash, render_template, redirect, url_for, request, session
+from dao.DAOCita import Cita
+from dao.DAOCola import Queue
+from dao.DAOPila import Stack
 
 app = Flask(__name__)
 app.secret_key = 'mys3cretk3y'
@@ -7,6 +10,10 @@ users = {
     'jose': 'jose1',
     'jose2': 'josej2'
 }
+
+cita = Cita()
+cola = Queue()
+pila = Stack()
 
 # Inicio
 @app.route('/')
@@ -43,13 +50,32 @@ def empleado():
     else:
         return redirect(url_for('login'))
 
-@app.route('/empleado/cita')
+@app.route('/empleado/cita', methods=['GET', 'POST'])
 def cita():
+    if request.method == 'POST':
+        tipo_documento = request.form['tipo_documento']
+        numero_documento = request.form['numero_documento']
+        datos_paciente = request.form['datos_paciente']
+        fecha_cita = request.form['fecha_cita']
+        turno = request.form['turno']
+        hora_cita = request.form['hora_cita']
+        
+        nueva_cita = Cita(tipo_documento, numero_documento, datos_paciente, fecha_cita, turno, hora_cita)
+        cola.enqueue(nueva_cita)
+        flash('Cita registrada exitosamente')
+        return redirect(url_for('cita'))
+    
     return render_template('/empleado/cita/index.html')
 
 @app.route('/empleado/historial')
 def historial():
-    return render_template('empleado/historial/index.html')
+    historial_citas = []
+    nodo_actual = historial.cabeza
+    while nodo_actual:
+        historial_citas.append(nodo_actual.dato)
+        nodo_actual = nodo_actual.siguiente
+    
+    return render_template('empleado/historial/index.html', historial_citas=historial_citas)
 
 @app.errorhandler(404)
 def page_not_found(error):
