@@ -12,8 +12,8 @@ py -m venv env
 4. Activar el virtualenv:
 env\Scripts\activate
 
-5. Instalar flask *ACTIVADO EL ENTORNO VIRTUAL*
-pip install flask
+5. Instalar requirements.txt *ACTIVADO EL ENTORNO VIRTUAL*
+pip install -r requirements.txt
 
 6. Si deseas desactivar en virtualenv *(OPCIONAL)*:
 deactivate

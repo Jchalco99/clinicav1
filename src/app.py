@@ -3,6 +3,8 @@ import jsonify
 from dao.DAOCita import Cita
 from dao.DAOCola import Queue
 from dao.DAOPila import Stack
+from dao.DAOArbolCitas import ArbolCitas
+from dao.funtions import generar_id_cita
 
 app = Flask(__name__)
 app.secret_key = 'mys3cretk3y'
@@ -16,6 +18,7 @@ cita = Cita()
 pacienteCola = Queue()
 cola = Queue()
 pila = Stack()
+arbolCitas = ArbolCitas()
 
 # Inicio
 @app.route('/')
@@ -77,11 +80,12 @@ def cita():
         numero_documento = request.form['numero_documento']
         datos_paciente = request.form['datos_paciente']
         fecha_cita = request.form['fecha_cita']
-        turno = request.form['turno']
         hora_cita = request.form['hora_cita']
         
-        nueva_cita = Cita(tipo_documento, numero_documento, datos_paciente, fecha_cita, turno, hora_cita)
+        nueva_cita = generar_id_cita(tipo_documento, numero_documento, datos_paciente, fecha_cita, hora_cita)
         cola.enqueue(nueva_cita)
+        arbolCitas.insertar(nueva_cita)
+        pila.push(nueva_cita)
         flash('Cita registrada exitosamente')
         return redirect(url_for('cita'))
     
@@ -89,12 +93,7 @@ def cita():
 
 @app.route('/empleado/historial')
 def historial():
-    historial_citas = []
-    nodo_actual = historial.cabeza
-    while nodo_actual:
-        historial_citas.append(nodo_actual.dato)
-        nodo_actual = nodo_actual.siguiente
-    
+    historial_citas = pila.imprimir()
     return render_template('empleado/historial/index.html', historial_citas=historial_citas)
 
 @app.errorhandler(404)

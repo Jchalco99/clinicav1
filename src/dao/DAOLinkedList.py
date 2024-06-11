@@ -13,7 +13,6 @@ class LinkedList:
             yield nodo_actual.dato
             nodo_actual = nodo_actual.siguiente
 
-
   def insertar_al_inicio(self, dato):
     """
     Inserta un elemento al inicio de la lista enlazada.
@@ -87,6 +86,6 @@ class LinkedList:
     """
     nodo_actual = self.cabeza
     while nodo_actual is not None:
-      print(nodo_actual.dato, end=" ")
+      x = nodo_actual
       nodo_actual = nodo_actual.siguiente
-    print()
+      return x

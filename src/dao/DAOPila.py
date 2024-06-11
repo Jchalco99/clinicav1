@@ -15,3 +15,15 @@ class Stack(LinkedList):
     Elimina y retorna el primer elemento de la pila (LIFO).
     """
     return self.eliminar_al_inicio()
+  
+  def __iter__(self):
+        nodo_actual = self.cabeza
+        while nodo_actual is not None:
+            yield nodo_actual.dato
+            nodo_actual = nodo_actual.siguiente
+            
+  def imprimir(self):
+        """
+        Devuelve una lista con todos los elementos de la pila.
+        """
+        return list(self)

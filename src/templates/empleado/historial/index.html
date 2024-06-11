@@ -10,23 +10,23 @@
                 <table class="table table-bordered table-thick-border">
                     <thead>
                         <tr>
+                            <th>ID Cita</th>
                             <th>Tipo documento</th>
                             <th>Numero de documento</th>
                             <th>Datos del paciente</th>
                             <th>Fecha</th>
-                            <th>Turno</th>
                             <th>Hora</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for cita in historial_citas %}
                         <tr>
-                            <td>cita.tipo_documento</td>
-                            <td>cita.numero_documento</td>
-                            <td>cita.datos_paciente</td>
-                            <td>cita.fecha_cita</td>
-                            <td>cita.turno</td>
-                            <td>cita.hora_cita</td>
+                            <td>{{ cita.id_cita }}</td>
+                            <td>{{ cita.tipo_documento }}</td>
+                            <td>{{ cita.numero_documento }}</td>
+                            <td>{{ cita.datos_paciente }}</td>
+                            <td>{{ cita.fecha_cita }}</td>
+                            <td>{{ cita.hora_cita }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

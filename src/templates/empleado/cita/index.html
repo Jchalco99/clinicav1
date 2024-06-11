@@ -4,7 +4,7 @@
 
 <div class="row col-12 text-center">
     <h1 class="titulo padding text-bold text-large">Clinica ########</h1>
-    <!-- Aqui va un for para poder visualizar las colas de paciente -->
+    <!-- Aquí va un for para poder visualizar las colas de paciente -->
     {% for paciente in cola_pacientes %}
     <div class="col-3">
         <div class="card card-thick-border text-bold">
@@ -20,17 +20,8 @@
     {% endif %}
     {% endfor %}
     <br><br>
-    <form action="#" method="post" class="text-bold">
+    <form action="{{ url_for('cita') }}" method="post" class="text-bold">
         <div class="row-mb-3 card padding card-thick-border">
-            <div class="input-group mb-3">
-                <span class="input-group-text">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                      </svg>
-                </span>
-                <input type="text" class="form-control" placeholder="Nombres y apellidos" required>
-            </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-person" viewBox="0 0 16 16">
@@ -38,14 +29,23 @@
                         <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2v9.255S12 12 8 12s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h5.5z"/>
                       </svg>
                 </span>
-                <select class="form-select" id="inputGroupSelect01">
+                <select class="form-select" id="tipo_documento" name="tipo_documento" required>
                     <option selected>Seleccione...</option>
-                    <option value="1">DNI</option>
-                    <option value="2">Carnet de extranjero</option>
-                    <option value="3">RUC</option>
-                    <option value="4">Pasaporte</option>
+                    <option value="DNI">DNI</option>
+                    <option value="Carnet de extranjero">Carnet de extranjero</option>
+                    <option value="RUC">RUC</option>
+                    <option value="Pasaporte">Pasaporte</option>
                 </select>
-                <input type="number" class="form-control" placeholder="Numero de documento" required>
+                <input type="text" class="form-control" id="numero_documento" name="numero_documento" placeholder="Número de documento" required>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                      </svg>
+                </span>
+                <input type="text" class="form-control" placeholder="Nombres y apellidos" name="datos_paciente" required>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">
@@ -53,22 +53,24 @@
                         <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
                       </svg>
                 </span>
-                <input type="date" class="form-control" required>
+                <input type="date" class="form-control" name="fecha_cita" required>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
                         <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
                         <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/>
-                      </svg>
+                    </svg>
                 </span>
-                <select class="form-select" id="inputGroupSelect01">
+                <select class="form-select" id="turno" name="turno" onchange="mostrarHorarios(this.value)" required>
                     <option selected>Seleccione...</option>
-                    <option value="1">Mañana</option>
-                    <option value="2">Tarde</option>
-                    <option value="3">Noche</option>
+                    <option value="Mañana">Mañana</option>
+                    <option value="Tarde">Tarde</option>
+                    <option value="Noche">Noche</option>
                 </select>
-                <input type="time" class="form-control" required>
+                <select id="horarios" class="form-select" name="hora_cita" style="display:none;" required>
+                    <!-- Los horarios se llenarán dinámicamente con JavaScript -->
+                </select>
             </div>
             <hr>
             <div class="alinear-botones">
@@ -78,5 +80,49 @@
         </div>
     </form>
 </div>
+
+<script>
+function mostrarHorarios(turno) {
+    var horarios = document.getElementById("horarios");
+    if (turno === "Mañana") {
+        horarios.innerHTML = `
+            <option value="08:00">08:00</option>
+            <option value="08:30">08:30</option>
+            <option value="09:00">09:00</option>
+            <option value="09:30">09:30</option>
+            <option value="10:00">10:00</option>
+            <option value="10:30">10:30</option>
+            <option value="11:00">11:00</option>
+            <option value="11:30">11:30</option>
+            <!-- Agrega los horarios de la mañana aquí -->
+        `;
+    } else if (turno === "Tarde") {
+        horarios.innerHTML = `
+            <option value="12:00">12:00</option>
+            <option value="12:30">12:30</option>
+            <option value="13:00">13:00</option>
+            <option value="13:30">13:30</option>
+            <option value="14:00">14:00</option>
+            <option value="14:30">14:30</option>
+            <option value="15:00">15:00</option>
+            <option value="15:30">15:30</option>
+            <!-- Agrega los horarios de la tarde aquí -->
+        `;
+    } else if (turno === "Noche") {
+        horarios.innerHTML = `
+            <option value="16:00">16:00</option>
+            <option value="16:30">16:30</option>
+            <option value="17:00">17:00</option>
+            <option value="17:30">17:30</option>
+            <option value="18:00">18:00</option>
+            <option value="18:30">18:30</option>
+            <option value="19:00">19:00</option>
+            <option value="19:30">19:30</option>
+            <!-- Agrega los horarios de la noche aquí -->
+        `;
+    }
+    horarios.style.display = "block";
+}
+</script>
 
 {% endblock %}
