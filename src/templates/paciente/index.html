@@ -1,15 +1,25 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-
 <div class="row col-12 text-center">
+    <a href="/" class="text-start">
+        <button class="btn btn-outline-primary btn-lg btn-thick-border">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5"/>
+              </svg> Regresar</button>
+    </a>
     <h1 class="titulo padding text text-large text-bold">Clinica ########</h1>
-    <!-- Aqui va un for para poder visualizar las colas de paciente -->
+    <div class="col-6">
+        <button class="btn btn-outline-success btn-lg btn-thick-border" id="generar-ticket" onclick="reloadPage()">Generar ticket de atención</button>
+    </div>
+    <a href="/eliminar_paciente" class="col-6">
+        <button class="btn btn-outline-danger btn-lg btn-thick-border" onclick="reloadPage()">Eliminar ticket de atención</button>
+    </a>
     <div class="container">
-        <div class="row">
+        <br><br>
+        <div class="row" id="paciente-list">
             {% for paciente in pacientes %}
                 <div class="col-2">
-                    <!-- Aqui irian cards o algo para que se puedan visualizar de mejor forma cada paciente -->
                     <div class="card card-thick-border text-bold">
                         {{ paciente }}
                     </div>
@@ -28,9 +38,45 @@
         </div>
         <br><br>
     </div>
-    <a href="/paciente">
-        <button class="btn btn-outline-success btn-lg btn-thick-border">Generar ticket de atencion</button>
-    </a>
 </div>
 
+<script>
+document.getElementById('generar-ticket').addEventListener('click', function() {
+    fetch('/agregar_paciente', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const pacienteList = document.getElementById('paciente-list');
+        pacienteList.innerHTML = '';
+        data.pacientes.forEach((paciente, index) => {
+            const col = document.createElement('div');
+            col.className = 'col-2';
+            col.innerHTML = `<div class="card card-thick-border text-bold">${paciente}</div>`;
+            pacienteList.appendChild(col);
+
+            if (index % 3 !== 2 && index !== data.pacientes.length - 1) {
+                const arrowCol = document.createElement('div');
+                arrowCol.className = 'col-2';
+                arrowCol.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+                                      </svg>`;
+                pacienteList.appendChild(arrowCol);
+            }
+
+            if (index % 3 === 2 && index !== data.pacientes.length - 1) {
+                const breakRow = document.createElement('div');
+                breakRow.className = 'row';
+                pacienteList.appendChild(breakRow);
+            }
+        });
+    });
+});
+function reloadPage() {
+    location.reload();
+}
+</script>
 {% endblock %}

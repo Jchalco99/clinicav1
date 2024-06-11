@@ -1,4 +1,5 @@
 from flask import Flask, flash, render_template, redirect, url_for, request, session
+import jsonify
 from dao.DAOCita import Cita
 from dao.DAOCola import Queue
 from dao.DAOPila import Stack
@@ -12,6 +13,7 @@ users = {
 }
 
 cita = Cita()
+pacienteCola = Queue()
 cola = Queue()
 pila = Stack()
 
@@ -23,8 +25,26 @@ def inicio():
 # Paciente
 @app.route('/paciente')
 def paciente():
-    pacientes = ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09"]
-    return render_template('/paciente/index.html', pacientes = pacientes)
+    nuevo_paciente = f'A{len(pacienteCola) + 1:02d}'
+    pacienteCola.enqueue(nuevo_paciente)
+    return redirect(url_for('ver_pacientes'))
+
+@app.route('/ver_pacientes')
+def ver_pacientes():
+    pacientes = list(pacienteCola)
+    return render_template('paciente/index.html', pacientes=pacientes)
+
+@app.route('/agregar_paciente', methods=['POST'])
+def agregar_paciente():
+    nuevo_paciente = f'A{len(pacienteCola) + 1:02d}'
+    pacienteCola.enqueue(nuevo_paciente)
+    pacientes = list(pacienteCola)
+    return jsonify(pacientes=pacientes)
+
+@app.route('/eliminar_paciente')
+def eliminar_paciente():
+    pacienteCola.dequeue()
+    return redirect(url_for('ver_pacientes'))
 
 # Empleado
 @app.route('/login', methods=['GET', 'POST'])
