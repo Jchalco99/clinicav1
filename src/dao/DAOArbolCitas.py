@@ -27,7 +27,7 @@ class ArbolCitas:
 
     def _buscar_cita_existente(self, nodo, cita):
         if nodo:
-            if cita.fecha_cita == nodo.dato.fecha_cita and cita.hora_cita == nodo.dato.hora_cita and cita.medico == nodo.dato.medico:
+            if cita.fecha_cita == nodo.dato.fecha_cita and cita.hora_cita == nodo.dato.hora_cita and cita.consultorio == nodo.dato.consultorio:
                 return True
             return self._buscar_cita_existente(nodo.izquierda, cita) or self._buscar_cita_existente(nodo.derecha, cita)
         return False

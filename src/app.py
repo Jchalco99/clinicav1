@@ -4,7 +4,7 @@ from dao.DAOCita import Cita
 from dao.DAOCola import Queue
 from dao.DAOPila import Stack
 from dao.DAOArbolCitas import ArbolCitas
-from dao.funtions import generar_id_cita
+from dao.funtions import generar_id_cita, verificar_cita_existente
 
 app = Flask(__name__)
 app.secret_key = 'mys3cretk3y'
@@ -76,20 +76,41 @@ def empleado():
 @app.route('/empleado/cita', methods=['GET', 'POST'])
 def cita():
     if request.method == 'POST':
-        tipo_documento = request.form['tipo_documento']
-        numero_documento = request.form['numero_documento']
-        datos_paciente = request.form['datos_paciente']
-        fecha_cita = request.form['fecha_cita']
-        hora_cita = request.form['hora_cita']
+        try:
+            tipo_documento = request.form['tipo_documento']
+            numero_documento = request.form['numero_documento']
+            datos_paciente = request.form['datos_paciente']
+            fecha_cita = request.form['fecha_cita']
+            hora_cita = request.form['hora_cita']
+            consultorio = request.form['consultorio']
+            
+            id_cita = generar_id_cita(fecha_cita, hora_cita, consultorio)
+            nueva_cita = Cita(id_cita, tipo_documento, numero_documento, datos_paciente, fecha_cita, hora_cita, consultorio)
+            cola.enqueue(nueva_cita)
+            arbolCitas.insertar(nueva_cita)
+            pacienteCola.dequeue()
+            pila.push(nueva_cita)
+            
+            flash('Cita registrada exitosamente')
+            return redirect(url_for('cita'))
         
-        nueva_cita = generar_id_cita(tipo_documento, numero_documento, datos_paciente, fecha_cita, hora_cita)
-        cola.enqueue(nueva_cita)
-        arbolCitas.insertar(nueva_cita)
-        pila.push(nueva_cita)
-        flash('Cita registrada exitosamente')
-        return redirect(url_for('cita'))
+        except KeyError as e:
+            flash(f"Error en los datos del formulario: campo {str(e)} faltante.")
+        except ValueError as e:
+            flash(f"Error en los datos del formulario: {str(e)}")
+        except Exception as e:
+            flash(f"Ocurrió un error al registrar la cita: {str(e)}")
     
     return render_template('/empleado/cita/index.html')
+
+@app.route('/buscar_consultorio', methods=["POST"])
+def buscar_cita():
+    fecha_cita = request.form['fecha_cita2']
+    hora_cita = request.form['hora_cita2']
+    consultorio = request.form['consultorio2']
+
+    existe = verificar_cita_existente(arbolCitas, fecha_cita, hora_cita, consultorio)
+    return render_template('/empleado/cita/index.html', existe=existe)
 
 @app.route('/empleado/historial')
 def historial():
