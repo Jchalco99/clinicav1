@@ -83,10 +83,9 @@ def cita():
             fecha_cita = request.form['fecha_cita']
             hora_cita = request.form['hora_cita']
             consultorio = request.form['consultorio']
-            
             id_cita = generar_id_cita(fecha_cita, hora_cita, consultorio)
+
             nueva_cita = Cita(id_cita, tipo_documento, numero_documento, datos_paciente, fecha_cita, hora_cita, consultorio)
-            cola.enqueue(nueva_cita)
             arbolCitas.insertar(nueva_cita)
             pacienteCola.dequeue()
             pila.push(nueva_cita)
@@ -106,11 +105,16 @@ def cita():
 @app.route('/buscar_consultorio', methods=["POST"])
 def buscar_cita():
     fecha_cita = request.form['fecha_cita2']
+    turno = request.form['turno2']
     hora_cita = request.form['hora_cita2']
     consultorio = request.form['consultorio2']
 
     existe = verificar_cita_existente(arbolCitas, fecha_cita, hora_cita, consultorio)
-    return render_template('/empleado/cita/index.html', existe=existe)
+    
+    if existe:
+        return render_template('/empleado/cita/index.html', existe=existe, fecha_cita=fecha_cita,turno=turno, hora_cita=hora_cita, consultorio=consultorio)
+    else:
+        return redirect(url_for('cita'))
 
 @app.route('/empleado/historial')
 def historial():

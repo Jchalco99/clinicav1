@@ -36,4 +36,15 @@
     </div>
 </div>
 
+<script>
+// Función para recargar la página cada 5 segundos
+function recargarPagina() {
+            setTimeout(function() {
+                location.reload();
+            }, 1000); // 1000 milisegundos = 1 segundo
+}
+// Llamar a la función cuando la página se cargue
+window.onload = recargarPagina;
+</script>
+
 {% endblock %}
