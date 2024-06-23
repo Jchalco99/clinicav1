@@ -9,9 +9,11 @@ class ArbolCitas:
             self.raiz = NodoArbol(cita)
         else:
             if self._buscar_cita_existente(self.raiz, cita):
-                print("Ya existe una cita para este médico en la misma fecha y hora.")
+                print("Ya existe una cita para este mÃ©dico en la misma fecha y hora.")
+                return False
             else:
                 self._insertar_recursivo(self.raiz, cita)
+                return True
 
     def _insertar_recursivo(self, actual, cita):
         if cita.fecha_cita < actual.dato.fecha_cita or (cita.fecha_cita == actual.dato.fecha_cita and cita.hora_cita < actual.dato.hora_cita):

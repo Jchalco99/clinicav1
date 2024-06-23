@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="text-center padding">
+    <div class="card padding card-thick-border bg-card">
+        <div class="card padding card-thick-border">
+            <form action="/busqueda_dni" method="post">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-person" viewBox="0 0 16 16">
+                            <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2v9.255S12 12 8 12s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h5.5z"/>
+                          </svg>
+                    </span>
+                    <select class="form-select" id="tipo_documento" name="tipo_documento" required>
+                        <option selected>Seleccione...</option>
+                        <option value="DNI">DNI</option>
+                        <option value="Carnet de extranjero">Carnet de extranjero</option>
+                        <option value="RUC">RUC</option>
+                        <option value="Pasaporte">Pasaporte</option>
+                    </select>
+                    <input type="text" class="form-control" id="numero_documento" name="numero_documento" placeholder="Número de documento" required>
+                    <button class="btn btn-outline-info btn-thick-border">
+                        Buscar paciente por Nro de Documento
+                    </button>
+                </div>
+            </form>
+        </div>
+        {% if dni %}
+        <div class="card padding card-thick-border">
+            <table class="table table-bordered table-thick-border">
+                <thead>
+                    <tr>
+                        <th>ID Cita</th>
+                        <th>Tipo documento</th>
+                        <th>Numero de documento</th>
+                        <th>Datos del paciente</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cita in dni %}
+                    <tr>
+                        <td>{{ cita.id_cita }}</td>
+                        <td>{{ cita.tipo_documento }}</td>
+                        <td>{{ cita.numero_documento }}</td>
+                        <td>{{ cita.datos_paciente }}</td>
+                        <td>{{ cita.fecha_cita }}</td>
+                        <td>{{ cita.hora_cita }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="card padding card-thick-border">
+            <p>Aun no hay datos</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

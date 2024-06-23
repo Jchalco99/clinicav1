@@ -1,4 +1,4 @@
-from .DAOCita import Cita
+from .DAOPila import Stack
 
 def generar_id_cita(fecha_cita, hora_cita, numero_consultorio): #, usuario, fecha_registro, hora_registro):
     # Formatear la fecha y la hora
@@ -22,9 +22,16 @@ def asignar_consultorio(arbol, fecha, hora):
 def verificar_cita_existente(arbol, fecha, hora, consultorio):
     def _buscar_cita(nodo):
         if nodo is None:
-            return True
-        if nodo.dato.fecha_cita == fecha and nodo.dato.hora_cita == hora and nodo.dato.consultorio == consultorio:
             return False
+        if nodo.dato.fecha_cita == fecha and nodo.dato.hora_cita == hora and nodo.dato.consultorio == consultorio:
+            return True
         return _buscar_cita(nodo.izquierda) or _buscar_cita(nodo.derecha)
 
     return _buscar_cita(arbol.raiz)
+
+def imprimir_por_numero_documento(lista_enlazada, tipo_documento, numero_documento):
+    citas_encontradas = Stack()
+    for cita in lista_enlazada:
+        if cita.numero_documento == numero_documento and cita.tipo_documento == tipo_documento:
+            citas_encontradas.push(cita)
+    return citas_encontradas

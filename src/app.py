@@ -4,7 +4,7 @@ from dao.DAOCita import Cita
 from dao.DAOCola import Queue
 from dao.DAOPila import Stack
 from dao.DAOArbolCitas import ArbolCitas
-from dao.funtions import generar_id_cita, verificar_cita_existente
+from dao.funtions import generar_id_cita, verificar_cita_existente, imprimir_por_numero_documento
 
 app = Flask(__name__)
 app.secret_key = 'mys3cretk3y'
@@ -18,6 +18,7 @@ cita = Cita()
 pacienteCola = Queue()
 cola = Queue()
 pila = Stack()
+pilaDni = Stack()
 arbolCitas = ArbolCitas()
 
 # Inicio
@@ -86,11 +87,15 @@ def cita():
             id_cita = generar_id_cita(fecha_cita, hora_cita, consultorio)
 
             nueva_cita = Cita(id_cita, tipo_documento, numero_documento, datos_paciente, fecha_cita, hora_cita, consultorio)
-            arbolCitas.insertar(nueva_cita)
-            pacienteCola.dequeue()
+            X = arbolCitas.insertar(nueva_cita)
             pila.push(nueva_cita)
-            
-            flash('Cita registrada exitosamente')
+            if X == False:
+                pila.pop()
+                flash('La cita no se registró')
+            else:
+                pacienteCola.dequeue()
+                flash('Cita registrada exitosamente')
+
             return redirect(url_for('cita'))
         
         except KeyError as e:
@@ -112,14 +117,29 @@ def buscar_cita():
     existe = verificar_cita_existente(arbolCitas, fecha_cita, hora_cita, consultorio)
     
     if existe:
-        return render_template('/empleado/cita/index.html', existe=existe, fecha_cita=fecha_cita,turno=turno, hora_cita=hora_cita, consultorio=consultorio)
-    else:
+        flash('No hay horario disponible')
         return redirect(url_for('cita'))
+    else:
+        flash('Si hay horario disponible')
+        return render_template('/empleado/cita/index.html', existe=existe, fecha_cita=fecha_cita,turno=turno, hora_cita=hora_cita, consultorio=consultorio)
 
 @app.route('/empleado/historial')
 def historial():
     historial_citas = pila.imprimir()
     return render_template('empleado/historial/index.html', historial_citas=historial_citas)
+
+@app.route('/empleado/dni')
+def dni():
+    return render_template('/empleado/historial/dni.html')
+
+@app.route('/busqueda_dni', methods=["POST"])
+def busqueda_dni():
+    tipo_documento = request.form['tipo_documento']
+    numero_documento = request.form['numero_documento']
+
+    cita_dni = imprimir_por_numero_documento(pila, tipo_documento, numero_documento)
+    dni = cita_dni.imprimir()
+    return render_template('/empleado/historial/dni.html', dni=dni)
 
 @app.errorhandler(404)
 def page_not_found(error):
